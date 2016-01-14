@@ -1,0 +1,34 @@
+NetIDs: bml27, aj168, blc14, cy88
+
+Readability
+	•	What pieces of code help versus obscure your understanding of the algorithm?
+	Having one large main method confuses us. We are not sure which part of the main algorithm corresponds to which heuristic until we read the print 
+	statements. The print statements help us determine which heuristic is which.	Some of the variable names like ‘size’ and ‘d’ are not very helpful. ‘size’ could refer to the file size or the remaining disk size and ‘d’ doesn’t help at all.
+	Also, the class names in the project file are misleading. Bins, a program, could easily be confused for Disks, code used largely for class definition, because of their semantic similarity. 
+	•	What comments might be helpful within the code?
+	Comments about which part of the main method corresponds to what heuristics would help. Comments about the different if statements would help;
+	what they are checking for and what they do when they are satisfied.
+	•	Are there places where the code could be more concise and also more clear?
+	The algorithms for both the heuristics are exactly the same. We can put this code in a separate method and call this new method in both heuristics.
+	Also, the Scanner input definition could be more clear. 
+Testability
+	•	How would you test this code for bugs?
+	We would try to test the code modularly. We would check if the readData method works and then we would proceed to check if both the heuristics 
+	algorithms works right. We would also right JUnit tests for total size and number of disks for both heuristics. We would also try different edge cases
+	like files that don’t fit on a single disk, etc.	
+	•	Give a specific example of a "test case" as the code is currently written.
+	We would run the following test case: 100000 900000 (the first heuristic is coded slightly wrong)
+	•	What additional functions may be helpful?
+	A function to handle files that are bigger than the disk size would be useful.
+	•	Give a specific example of a "test case" for your new function.
+		A test case would be giving a file size that is bigger than the size of the disk: 5000000
+Extensibility
+	•	What Code Smells can you find?
+	Long Method, Large Class, Duplicate Code, 
+	•	What suggestions does this code make about how someone would extend it in the future to compare the performance of a wider variety of fitting algorithms?
+	The current code forces the programmer to duplicate code every time for a new algorithm, and doesn’t even allow one algorithm to rerun without the same amount of code. 
+	This is a script-based program, rather than object-based. Fitting algorithms aren’t so different - so far, they’ve dealt with order of the read file. One issue is that the
+	looping function that employs the priority queue can’t be used for dynamic fitting algorithms. 
+	•	What dependencies are there between different parts of the code?
+	•	How easy to find are those dependencies?
+	•	Can you clarify or remove those dependencies?

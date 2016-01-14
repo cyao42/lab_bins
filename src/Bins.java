@@ -32,11 +32,12 @@ public class Bins {
     
     public static PriorityQueue<Disk> loop(List<Integer> data) { 
         PriorityQueue<Disk> pq = new PriorityQueue<Disk>();
+        if (data.size() == 0) return pq;
         pq.add(new Disk(0));
         int diskId = 1;
         for (Integer size : data) {
             Disk d = pq.peek();
-            if (d.freeSpace() > size) {
+            if (d.freeSpace() >= size) {
                 pq.poll();
                 d.add(size);
                 pq.add(d);
