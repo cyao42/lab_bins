@@ -20,25 +20,20 @@ public class Bins {
      */
     public List<Integer> readData (Scanner input) {
         List<Integer> results = new ArrayList<Integer>();
+        int total = 0;
         while (input.hasNext()) {
-            results.add(input.nextInt());
+        	int fileSize = input.nextInt();
+        	total += fileSize;
+            results.add(fileSize);
         }
+        System.out.println("total size = " + total / 1000000.0 + "GB");
         return results;
     }
-
-    /**
-     * The main program.
-     */
-    public static void main (String args[]) {
-        Bins b = new Bins();
-        Scanner input = new Scanner(Bins.class.getClassLoader().getResourceAsStream(DATA_FILE));
-        List<Integer> data = b.readData(input);
-
+    
+    public static PriorityQueue<Disk> loop(List<Integer> data) { 
         PriorityQueue<Disk> pq = new PriorityQueue<Disk>();
         pq.add(new Disk(0));
-
         int diskId = 1;
-        int total = 0;
         for (Integer size : data) {
             Disk d = pq.peek();
             if (d.freeSpace() > size) {
@@ -51,42 +46,38 @@ public class Bins {
                 d2.add(size);
                 pq.add(d2);
             }
-            total += size;
         }
-
-        System.out.println("total size = " + total / 1000000.0 + "GB");
+    	return pq;
+    }
+    
+    public static void printResults(PriorityQueue<Disk> pq, String type) { 
         System.out.println();
-        System.out.println("worst-fit method");
+        System.out.println(type + " method");
         System.out.println("number of pq used: " + pq.size());
         while (!pq.isEmpty()) {
             System.out.println(pq.poll());
         }
         System.out.println();
+    }
+    
+    public static void inOrder(List<Integer> data) { 
+    	PriorityQueue<Disk> qu = loop(data); 
+    	printResults(qu, "worst-fit");
+    }
+    
+    public static void decreasingOrder(List<Integer> data) { 
+    	PriorityQueue<Disk> qu = loop(data); 
+    	printResults(qu, "worst-fit decreasing order");
+    }
 
-        Collections.sort(data, Collections.reverseOrder());
-        pq.add(new Disk(0));
-
-        diskId = 1;
-        for (Integer size : data) {
-            Disk d = pq.peek();
-            if (d.freeSpace() >= size) {
-                pq.poll();
-                d.add(size);
-                pq.add(d);
-            } else {
-                Disk d2 = new Disk(diskId);
-                diskId++;
-                d2.add(size);
-                pq.add(d2);
-            }
-        }
-
-        System.out.println();
-        System.out.println("worst-fit decreasing method");
-        System.out.println("number of pq used: " + pq.size());
-        while (!pq.isEmpty()) {
-            System.out.println(pq.poll());
-        }
-        System.out.println();
+    /**
+     * The main program.
+     */
+    public static void main (String args[]) {
+        Bins b = new Bins();
+        Scanner input = new Scanner(Bins.class.getClassLoader().getResourceAsStream(DATA_FILE));
+        List<Integer> data = b.readData(input);
+        inOrder(data);
+        decreasingOrder(data);
     }
 }
