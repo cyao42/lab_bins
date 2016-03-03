@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Scanner;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Runs a number of algorithms that try to fit files onto disks.
@@ -51,6 +53,11 @@ public class Bins {
     	return pq;
     }
     
+    public static void fitDisksAndPrint(List<Integer> list, Function<List<Integer>, List<Integer>> func) {
+    	List<Integer> transformed = func.apply(list);
+    	transformed.forEach(System.out::println);
+    }
+    
     public static void printResults(PriorityQueue<Disk> pq, String type) { 
         System.out.println();
         System.out.println(type + " method");
@@ -76,9 +83,12 @@ public class Bins {
      */
     public static void main (String args[]) {
         Bins b = new Bins();
-        Scanner input = new Scanner(Bins.class.getClassLoader().getResourceAsStream(DATA_FILE));
-        List<Integer> data = b.readData(input);
-        inOrder(data);
-        decreasingOrder(data);
+        Scanner scanInput = new Scanner(Bins.class.getClassLoader().getResourceAsStream(DATA_FILE));
+        List<Integer> data = b.readData(scanInput);
+//        inOrder(data);
+//        decreasingOrder(data);
+        fitDisksAndPrint(data, (input) -> input.stream()
+        		.sorted()
+        		.collect(Collectors.toList()));
     }
 }
